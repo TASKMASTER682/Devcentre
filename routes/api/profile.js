@@ -160,7 +160,7 @@ router.delete("/",auth,async (req,res)=>{
 //@route  Put api/profile/experiance
 //does   add profile experiance
 //@acess Private
-router.put("/experiance",[auth,[
+router.put("/experience",[auth,[
     check('title','Title is required').not().isEmpty(),
     check('company','company is required').not().isEmpty(),
     check('from','From date is required')
@@ -193,7 +193,7 @@ const newExp={
 }
 try {
     const profile=await Profile.findOne({user:req.user.id});
-    profile.experiance.unshift(newExp);
+    profile.experience.unshift(newExp);
     await profile.save();
     res.json(profile);
 
@@ -208,13 +208,13 @@ try {
 //@route  Delete api/profile/experiance
 //does   delete profile experiance
 //@acess Private
-router.delete("/experiance/:exp_id",auth,async (req,res)=>{
+router.delete("/experience/:exp_id",auth,async (req,res)=>{
     try {
         const profile=await Profile.findOne({user:req.user.id});
         //get remove index
-        const removeIndex=profile.experiance.map(item=>item.id).indexOf
+        const removeIndex=profile.experience.map(item=>item.id).indexOf
         (req.params.exp_id);
-        profile.experiance.splice(removeIndex,1);
+        profile.experience.splice(removeIndex,1);
         await profile.save();
         res.json(profile);
         
@@ -300,14 +300,14 @@ router.delete("/education/:edu_id",auth,async (req,res)=>{
 router.get("/github/:username",(req,res)=>{
     try {
         const options={
-            uri:`https://api.github.com/users/${req.params.username}/repos?per-page=5&
-            sort=created:asc&client_i${config.get('githubClientId')}&client_secret=${config.get('githubSecret')}`,
+            uri:`https://api.github.com/users/${req.params.username}/repos?per_page=5&
+            sort=created:asc&client_id=${config.get('githubClientId')}&client_secret=${config.get('githubSecret')}`,
             method:'GET',
-            headers:{'user-agent':"node.js"}
+            headers:{ 'user-agent':"node.js" }
         };
         request(options,(error,response,body)=>{
             if(error) console.error(error);
-            if(response.status!==200){
+            if(response.statusCode !==200){
                return res.status(404).json({msg:"No github profile found"});
             }
             res.json(JSON.parse(body))
