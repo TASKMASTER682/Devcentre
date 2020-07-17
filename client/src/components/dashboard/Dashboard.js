@@ -5,10 +5,12 @@ import {connect} from 'react-redux';
 import Spinner from '../layout/Spinner';
 import DashboardActions from './DashboardActions'
 import Experience from './Experience';
+import Education from './Education';
 import { getCurrentProfile } from '../../actions/profile';
+import { deleteAccount } from '../../actions/profile';
 
 
-const Dashboard=({getCurrentProfile,auth:{user},profile:{profile,loading}}) => {
+const Dashboard=({getCurrentProfile,deleteAccount,auth:{user},profile:{profile,loading}}) => {
     useEffect(() => {
         getCurrentProfile();
     }, [getCurrentProfile]);
@@ -23,7 +25,11 @@ const Dashboard=({getCurrentProfile,auth:{user},profile:{profile,loading}}) => {
 
         {profile !==null ? (<Fragment>
                                 <DashboardActions />
-                                <Experience />
+                                <Experience experience={profile.experience}  />
+                                <Education education={profile.education}  />
+                                <div className ="btn btn-danger my-1" onClick={()=>deleteAccount()}>
+                                    <i className="fas fa-user-minus"></i>Delete My Account
+                                </div>
                
                             </Fragment>):
         (<Fragment><p>You have not created your profile yet</p>
@@ -38,7 +44,8 @@ const Dashboard=({getCurrentProfile,auth:{user},profile:{profile,loading}}) => {
 Dashboard.propTypes={
 getCurrentProfile:PropTypes.func.isRequired,
 auth:PropTypes.object.isRequired,
-profile:PropTypes.object.isRequired
+profile:PropTypes.object.isRequired,
+deleteAccount:PropTypes.func.isRequired
 };
 //load profile in state only when auth is true,so we are using auth here
 const mapStateToProps=state => ({
@@ -46,4 +53,4 @@ const mapStateToProps=state => ({
     profile:state.profile
 })
 
-export default connect(mapStateToProps,{getCurrentProfile})(Dashboard);
+export default connect(mapStateToProps,{getCurrentProfile,deleteAccount})(Dashboard);
