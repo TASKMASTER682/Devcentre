@@ -40,7 +40,7 @@ const EditProfile= ({profile:{profile,loading},createProfile, getCurrentProfile,
     
     });
 
-   },[loading]);
+   },[loading,getCurrentProfile]);
 
    const {
 

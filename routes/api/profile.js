@@ -109,7 +109,7 @@ router.post('/',[auth,[
 });
 //@route  Get api/profile
 //does   get all profiles
-//@acess Private
+//@acess Public
 router.get("/",async (req,res)=>{
 try {
     const profiles=await Profile.find().populate('user',['name','avatar']);
@@ -129,6 +129,7 @@ router.get("/user/:user_id",async (req,res)=>{
         ['name','avatar']);
         if(!profile) return res.status(400).json({msg:"There is no profile for this user"});
         //otherwise
+        else
         res.json(profile);
     } catch (err) {
         console.error(err.message);
@@ -147,14 +148,14 @@ router.delete("/",auth,async (req,res)=>{
     try {
         // remove users posts
 
-         await Post.deleteMany({users:req.user.id })
+         await Post.deleteMany({user:req.user.id })
 
 
         //Remove profile
 
         await Profile.findOneAndRemove({user:req.user.id});
         //remove user
-        await Profile.findOneAndRemove({_id:req.user.id});
+        await User.findOneAndRemove({_id:req.user.id});
         res.json({msg:"user deleted"});
     } catch (err) {
         console.error(err.message);

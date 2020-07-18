@@ -9,23 +9,22 @@ import ProfileItem from './ProfileItem';
 const Profiles=({getAllProfiles,profile:{profiles,loading}})=>{
     useEffect(()=>{
         getAllProfiles()
-    },[]);
+    },[getAllProfiles]);
 
-    return(
-        <Fragment>
+    return <Fragment>
            {loading ? <Spinner />:<Fragment>
                <h1 className="large text-primary">Developers</h1>
                <p className="lead"><i className="fab fa-connectdevelop"></i>Browse and Connect with developers</p>
                <div className="profiles">
-                  {profiles.length>0 ? (profiles.map(profile=>(<ProfileItem key={profile._id} profile={profile} />))
+                  {profiles.length > 0 ? (profiles.map(profile=>(<ProfileItem key={profile._id} profile={profile} />))
                   
                   ):<h4>No profile found</h4>
-                  };
+                  }
                </div>
            </Fragment>}
         </Fragment>
 
-    )
+    
 }
 
 
@@ -33,7 +32,7 @@ const Profiles=({getAllProfiles,profile:{profiles,loading}})=>{
 
 
 Profiles.propTypes={
-    setProfiles:PropTypes.func.isRequired,
+    
     profile:PropTypes.object.isRequired
 };
 
