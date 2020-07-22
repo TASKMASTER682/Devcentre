@@ -56,11 +56,12 @@ const PostItem = ({auth,addLikes,removeLikes,deletePost,post:{_id,text,name,avat
     
 
 PostItem.propTypes = {
-    posts:PropTypes.object.isRequired,
+    post:PropTypes.object.isRequired,
     auth:PropTypes.object.isRequired,
     addLikes:PropTypes.func.isRequired,
     removeLikes:PropTypes.func.isRequired,
-    deletePost:PropTypes.func.isRequired
+    deletePost:PropTypes.func.isRequired,
+    showActions:PropTypes.bool
 
 }
 const mapStateToProps=state=>({
